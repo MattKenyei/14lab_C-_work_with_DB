@@ -1,0 +1,51 @@
+﻿@model List<GroupModel>
+
+@{
+    ViewData["Title"] = "Group";
+}
+
+<h1>Group</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">name</th>
+            <th scope="col">description</th>          
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var faculty in Model)
+        {
+            <tr>
+                <th scope="row">@faculty.id</th>
+                <td>@faculty.name</td>
+                <td>
+                    <form action="/Group/Delete/@faculty.id">
+                        <button type="submit" class="btn btn-danger m-1">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<form action="/Group/Insert">
+    <div class="d-flex m-1">
+        <label class="m-1">name:</label>
+        <input class="form-control" type="text" name="name" required />
+        <button class="btn btn-success m-1" type="submit">Insert</button>
+    </div>
+</form>
+<form action="/Group/Update">
+    <div class="d-flex m-1">
+        <label class="m-1">Id:</label>
+        <select class="form-control" name="id" required>
+            @foreach (var faculty in Model)
+            {
+                <option value="@faculty.id">@faculty.id</option>
+            }
+        </select>
+        <label class="m-1">name:</label>
+        <input class="form-control" type="text" name="name" required />
+        <button class="btn btn-secondary m-1" type="submit">Update</button>
+    </div>
+</form>

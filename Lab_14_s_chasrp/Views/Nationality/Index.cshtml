@@ -1,0 +1,89 @@
+﻿@model Lab_14_s_chasrp.Models.Models
+
+@{
+    ViewData["Title"] = "nationality";
+}
+
+<h1>Nationality</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Photo</th>
+            <th scope="col">name</th>          
+            <th scope="col">GroupName</th>       
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var department in Model.Nationalities)
+        {
+            <tr>
+                <th scope="row">@department.id</th>
+                <td>
+                    @if (department.photo != null)
+                    {
+                        <img class="w-50 h-auto" src="data:image;base64,@Convert.ToBase64String(department.photo)"/>
+                    }
+                </td>
+                <td>@department.name</td>
+                <td>@Model.Groups.FirstOrDefault(i => i.name.ToString() == department.GroupId).name.ToString()</td>
+                <td>
+                    <form action="/Nationality/Delete/@department.id">
+                        <button type="submit" class="btn btn-danger m-1">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<form action="/Nationality/Insert" enctype="multipart/form-data" method="post">
+    <div class="d-flex justify-content-between">
+        <div class="d-flex flex-column">
+            <label class="m-3">Name:</label>
+            <label class="m-3">Kind_name:</label>
+            <label class="m-3">photo:</label>
+        </div>
+        <div class="d-flex flex-column w-100">           
+            <input class="form-control m-2" type="text" name="name" required/>
+            <select class="form-control m-2" name="l_group_id" required>
+
+                @foreach (var faculty in Model.Groups)
+                {
+                    <option value="@faculty.name">@faculty.name</option>
+                }
+            </select>
+            <input class="form-control m-2" type="file" name="photo" required />
+        </div>
+    </div>
+    <button class="btn btn-success m-1 w-100" type="submit">Insert</button>
+</form>
+<form action="/Nationality/Update" enctype="multipart/form-data" method="post">
+    <div class="d-flex justify-content-between">
+        <div class="d-flex flex-column">
+            <label class="m-3">Id:</label>
+            <label class="m-3">Name:</label>
+            <label class="m-3">Kind_name:</label>
+            <label class="m-3">Photo:</label>
+        </div>
+        <div class="d-flex flex-column w-100">
+            <select class="form-control m-2" name="id" required>
+                @foreach (var department in Model.Nationalities)
+                {
+                    <option value="@department.id">@department.id</option>
+                }
+            </select>          
+            <input class="form-control m-2" type="text" name="name" required />
+            <select class="form-control m-2" name="l_group_id" required>
+                @foreach (var faculty in Model.Groups)
+                {
+                    <option value="@faculty.name">@faculty.name</option>
+                }
+            </select>
+            <input class="form-control m-2" type="file" name="photo" required />
+        </div>
+    </div>
+    <button class="btn btn-secondary m-1 w-100" type="submit">Update</button> 
+</form>
+<form action="/Group" enctype="multipart/form-data" method="post">
+    <button class="btn btn-info m-1 w-100" type="submit">Groups</button>
+</form>
